@@ -1,5 +1,5 @@
 //
-//  SearchViewController.swift
+//  SearchMusicViewController.swift
 //  TopMusic
 //
 //  Created by Кирилл Медведев on 13.05.2020.
@@ -9,9 +9,15 @@
 import Foundation
 import UIKit
 
-class SearchViewController: UITableViewController {
+
+class SearchMusicViewController: UITableViewController {
     
-    let searchController = UISearchController(searchResultsController: nil)
+    let networkService = NetworkService.shared
+    var timer: Timer?
+    
+    var tracks = [Track]()
+    
+    private let searchController = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,19 +35,29 @@ class SearchViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return tracks.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
-        cell.textLabel?.text = "\(indexPath)"
+        
+        let track = tracks[indexPath.row]
+        cell.textLabel?.text = track.artistName
+        cell.textLabel?.numberOfLines = 2
         return cell
     }
 }
 
-extension SearchViewController: UISearchBarDelegate {
+extension SearchMusicViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        <#code#>
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
+            self.networkService.fetchTracks(searchText: searchText) { [weak self] (searchResponse) in
+                self?.tracks = searchResponse?.results ?? []
+                self?.tableView.reloadData()
+            }
+        })
     }
+    
 }

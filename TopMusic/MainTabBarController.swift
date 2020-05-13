@@ -17,7 +17,7 @@ class MainTabBarController: UITabBarController {
         view.backgroundColor = .white
         tabBar.tintColor = #colorLiteral(red: 1, green: 0, blue: 0.3764705882, alpha: 1)
         
-        let searchVC = SearchViewController()
+        let searchVC = SearchMusicViewController()
         let libraryVC = ViewController()
         
         viewControllers = [
