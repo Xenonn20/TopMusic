@@ -8,5 +8,6 @@ target 'TopMusic' do
   # Pods for TopMusic
 
 pod 'Alamofire', '~> 5.1'
+pod 'SDWebImage', '~> 5.0'
 
 end

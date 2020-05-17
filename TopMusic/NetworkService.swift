@@ -17,7 +17,7 @@ class NetworkService {
     func fetchTracks(searchText: String, completion: @escaping (SearchResponse?) -> Void) {
         let parametrs = [
             "term": "\(searchText)",
-            "limit": "10",
+            "limit": "500",
             "media": "music"
         ]
         AF.request(url, method: .get, parameters: parametrs, encoder: URLEncodedFormParameterEncoder.default).responseData { (dataResponse) in
